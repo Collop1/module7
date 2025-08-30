@@ -5,11 +5,9 @@ function Emoji() {
   const { mood } = useContext(EmojiContext);
 
   return (
-    <div>
-      <span role="img" aria-label={mood}>
-        {mood === 'happy' ? '😄' : '😢'}
-      </span>
-    </div>
+    <span role="img" aria-label={mood}>
+      {mood === 'happy' ? '😄' : '😢'}
+    </span>
   );
 }
 

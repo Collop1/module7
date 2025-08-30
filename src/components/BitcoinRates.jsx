@@ -15,10 +15,6 @@ function BitcoinRates() {
     <div className="BitcoinRates componentBox">
       <h3>Bitcoin Exchange Rate</h3>
 
-      <div className="current-mood">
-        Current Mood: <Emoji />
-      </div>
-
       <label>
         Choose currency:
         <select value={currency} onChange={e => setCurrency(e.target.value)}>
@@ -27,7 +23,7 @@ function BitcoinRates() {
       </label>
       {/* Show rate if available */}
       {rate !== null && !error && (
-        <p>1 Bitcoin = {rate} {currency}</p>
+        <p>1 Bitcoin = {rate} {currency} <Emoji /></p>
       )}
       
       {/* Show loading message if loading and no error */}
