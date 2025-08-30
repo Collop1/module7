@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { EmojiProvider } from './contexts/EmojiContext';
+import MoodChanger from './components/MoodChanger';
 import BitcoinRates from './components/BitcoinRates'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <BitcoinRates />
-    </>
-  )
+    <div className="App">
+      <EmojiProvider>
+        <BitcoinRates />
+        <MoodChanger />
+      </EmojiProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;

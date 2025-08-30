@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useBitcoinRates } from "../hooks/useBitcoinRates";
+import Emoji from './Emoji';
 
 const currencies = ['USD', 'AUD', 'NZD', 'GBP', 'EUR', 'SGD'];
 
 function BitcoinRates() {
   const [currency, setCurrency] = useState(currencies[0]);
-  
   const { rate, error, loading } = useBitcoinRates(currency);
-
   const options = currencies.map(curr =>
     <option value={curr} key={curr}>{curr}</option>
   );
@@ -15,6 +14,11 @@ function BitcoinRates() {
   return (
     <div className="BitcoinRates componentBox">
       <h3>Bitcoin Exchange Rate</h3>
+
+      <div className="current-mood">
+        Current Mood: <Emoji />
+      </div>
+
       <label>
         Choose currency:
         <select value={currency} onChange={e => setCurrency(e.target.value)}>
