@@ -1,0 +1,1 @@
+Bitcoin rates app template with basic pages (Home, Bitcoin rates, Login)
