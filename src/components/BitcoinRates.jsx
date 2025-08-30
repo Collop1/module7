@@ -1,37 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useBitcoinRates } from "../hooks/useBitcoinRates";
 
 const currencies = ['USD', 'AUD', 'NZD', 'GBP', 'EUR', 'SGD'];
+
 function BitcoinRates() {
-  const [currency, setCurrency] = useState(currencies[0]); 
-  const [rate, setRate] = useState(null);
-
-  useEffect(() => {
-    // Flag to handle cleanup/race conditions
-    let ignore = false;
-
-    // Fetch the Bitcoin price for the selected currency
-    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currency}`)
-      .then(response => response.json())
-      .then(data => {
-        // Only update state if the component is still mounted and
-        // this is the latest request (not an outdated one)
-        if (!ignore) {
-          setRate(data.bitcoin[currency.toLowerCase()]);
-        }
-      })
-      .catch(error => {
-        if (!ignore) {
-          console.error("Error fetching Bitcoin data:", error);
-          setRate(null);
-        }
-      });
-
-    // Cleanup function that runs when the component unmounts
-    // or before the effect runs again due to dependency changes
-    return () => {
-      ignore = true; // Set flag to ignore any in-progress fetch results
-    };
-  }, [currency]); // Re-run effect when currency changes
+  const [currency, setCurrency] = useState(currencies[0]);
+  
+  const { rate, error, loading } = useBitcoinRates(currency);
 
   const options = currencies.map(curr =>
     <option value={curr} key={curr}>{curr}</option>
@@ -46,10 +21,19 @@ function BitcoinRates() {
           {options}
         </select>
       </label>
-      {rate !== null ? (
+      {/* Show rate if available */}
+      {rate !== null && !error && (
         <p>1 Bitcoin = {rate} {currency}</p>
-      ) : (
+      )}
+      
+      {/* Show loading message if loading and no error */}
+      {loading && !error && (
         <p>Loading rate...</p>
+      )}
+      
+      {/* Show error message if there is an error */}
+      {error && (
+        <p>{error}</p>
       )}
     </div>
   );
